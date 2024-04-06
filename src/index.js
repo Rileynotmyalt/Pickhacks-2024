@@ -3,6 +3,43 @@ const {Camera, placeCameras} = require("./Camera");
 const {Line} = require("./Line");
 console.log("hello world")
 
+
+const { Polygon } = require("./Polygon");
+
+// Example polygon: A simple quadrilateral
+const pointsQuadrilateral = [
+    [1, 1],  // Bottom left
+    [1, 4],  // Top left
+    [4, 4],  // Top right
+    [4, 1]   // Bottom right
+];
+
+// Instantiate the Polygon with the points
+const quadrilateral = new Polygon(pointsQuadrilateral);
+
+// Calculate the centroid of the polygon
+const centroid = quadrilateral.centroid();
+
+// Log the centroid to the console
+console.log("Centroid of the quadrilateral:", centroid);
+
+// Example polygon: A triangle
+const pointsTriangle = [
+    [0, 0],  // Vertex 1
+    [6, 0],  // Vertex 2
+    [3, 6]   // Vertex 3
+];
+
+// Instantiate the Polygon with the points
+const triangle = new Polygon(pointsTriangle);
+
+// Calculate the centroid of the polygon
+const centroidTriangle = triangle.centroid();
+
+// Log the centroid to the console
+console.log("Centroid of the triangle:", centroidTriangle);
+
+
 /*
 const points1 = [[0, 0], [0, 4], [3, 4], [3, 0]];
 const points2 = [[1, 1], [1, 5], [4, 5], [4, 1]];
