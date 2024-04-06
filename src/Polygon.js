@@ -24,7 +24,7 @@ class Polygon {
     centroid() {
         let cx = 0, cy = 0;
         const N = this.points.length;
-        let A = this.area() * 6; // Multiplying by 6 for the centroid formula
+        let A = this.area() * 2; // Multiplying by 2 for the centroid formula
 
         for (let i = 0; i < N; i++) {
             const [x1, y1] = this.points[i];
@@ -34,8 +34,8 @@ class Polygon {
             cy += (y1 + y2) * common;
         }
         
-        cx /= A;
-        cy /= A;
+        cx /= (3 * A);
+        cy /= (3 * A);
 
         return [cx, cy];
     }
