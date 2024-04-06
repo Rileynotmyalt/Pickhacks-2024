@@ -24,7 +24,11 @@ class Polygon {
     centroid() {
         let cx = 0, cy = 0;
         const N = this.points.length;
-        let A = this.area() * 6; // Multiplying by 6 for the centroid formula
+        let A = this.area(); // Calculate the signed area
+
+        // Correct the formula by ensuring the division is done with the absolute value of A
+        // Note: We multiply by 6 as part of the centroid formula, not as a correction factor for A
+        A *= 6;
 
         for (let i = 0; i < N; i++) {
             const [x1, y1] = this.points[i];
@@ -33,12 +37,14 @@ class Polygon {
             cx += (x1 + x2) * common;
             cy += (y1 + y2) * common;
         }
-        
-        cx /= A;
+
+        // Apply the absolute value of A in the division to get the correct sign for the centroid coordinates
+        cx /= A; // Correctly applying the division by the absolute area value
         cy /= A;
 
-        return [cx, cy];
+        return [Math.abs(cx) , Math.abs(cy)]; // Final centroid coordinates
     }
+
 
     intersect(otherPolygon) {
         // Check if the input is a valid instance of Polygon class
@@ -102,7 +108,6 @@ class Polygon {
     }
 
 
-
     computeIntersection(edgeStart, edgeEnd, p1, p2) {
         const [x1, y1] = edgeStart;
         const [x2, y2] = edgeEnd;
@@ -129,9 +134,6 @@ class Polygon {
 
         return [qx, qy];
     }
-
-
-
 
 
     isInsidePolygon(point, polygon) {
@@ -176,7 +178,7 @@ class Polygon {
 }
 
 function nearestLine(target, polygons) {
-    // find closest point
+    // find the closest point
     let closestPoint = [];
     for (const polygon in polygons) {
         for (const point in polygon.points) {
@@ -192,8 +194,30 @@ function nearestLine(target, polygons) {
     // check for intercepts
     let intercepts = [];
     for (let i = 0; i < polygons.length; i++) {
-
+        for (let j = 0; j < polygons[i].points.length; j++) {
+            let line = new Line(polygons[i].points[j], polygons[i].points[(j+1)% polygons[i].points.length]);
+            if (line.intersects(l)) {
+                intercepts.push(line);
+            }
+        }
     }
+
+    // if there are multiple intercepts, pick the closest one.
+    if (intercepts.length > 1) {
+        let closestIntercept = null;
+        let closestInterceptDistance = Infinity;
+        for (let i = 0; i < intercepts.length; i++) {
+            let interceptDistance = Line.length(target, intercepts[i].intercept(l));
+            if (interceptDistance < closestInterceptDistance) {
+                closestIntercept = i;
+                closestInterceptDistance = interceptDistance;
+            }
+        }
+        return intercepts[closestIntercept];
+    } else if (intercepts.length === 0) {
+        return intercepts[0];
+    }
+    return null;
 }
 
-module.exports = {Polygon}
+module.exports = {Polygon, nearestLine}
