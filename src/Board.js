@@ -1,3 +1,4 @@
+const Polygon = require('./Polygon.js');
 class Board {
     constructor() {
         this.buildings = []; // list of Polygons
@@ -25,7 +26,7 @@ class Board {
                     top: row * cellHeight,
                     bottom: (row + 1) * cellHeight
                 };
-                sectprs.push(cell);
+                sectors.push(cell);
             }
         }
 
@@ -36,7 +37,15 @@ class Board {
      * returns a list of weighted points
      */
     simplifyPriorityZones() {
-
+        let simplifiedPriorityZones = [];
+        this.priorityZones.array.forEach(polygon => {
+            const cell = {
+                coord: polygon.centroid(),
+                weight: polygon.calculatePriorityWeight()
+            };
+            simplifiedPriorityZones.push(cell)
+        });
+        return simplifiedPriorityZones;
     }
 
     /**
@@ -44,7 +53,30 @@ class Board {
      * returns the 9 points and their weights
      */
     createPriorityPoints() {
+        const sectors = this.makeSectors();
+        const priorityPoints = this.simplifyPriorityZones();
+        let finalOut = [];
 
+        sectors.forEach(sector => {
+            var sectorWeight = 0;
+            var Xtot = 0;
+            var Ytot = 0;
+            priorityPoints.forEach(zone => {
+                if (sector.left < zone.coord[0] && zone.coord[0] <= sector.right && sector.bottom < zone.coord[1] && zone.coord[1] <= sector.top) {
+                    sectorWeight += zone.weight;
+                    Xtot += zone.coord[0];
+                    Ytot += zone.coord[1];
+                }
+                
+            });
+            let cell = {
+                    coords: [Xtot/sectorWeight, Ytot/sectorWeight],
+                    totalWeight: sectorWeight
+                };
+                finalOut.push(cell);
+        });
+
+        return finalOut;
     }
 
     /**
