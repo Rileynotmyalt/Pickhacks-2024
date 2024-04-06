@@ -24,7 +24,11 @@ class Polygon {
     centroid() {
         let cx = 0, cy = 0;
         const N = this.points.length;
-        let A = this.area() * 2; // Multiplying by 2 for the centroid formula
+        let A = this.area(); // Calculate the signed area
+
+    // Correct the formula by ensuring the division is done with the absolute value of A
+    // Note: We multiply by 6 as part of the centroid formula, not as a correction factor for A
+        A *= 6;
 
         for (let i = 0; i < N; i++) {
             const [x1, y1] = this.points[i];
@@ -32,13 +36,15 @@ class Polygon {
             const common = x1 * y2 - x2 * y1;
             cx += (x1 + x2) * common;
             cy += (y1 + y2) * common;
-        }
-        
-        cx /= (3 * A);
-        cy /= (3 * A);
-
-        return [cx, cy];
     }
+
+    // Apply the absolute value of A in the division to get the correct sign for the centroid coordinates
+        cx /= Math.abs(A); // Correctly applying the division by the absolute area value
+        cy /= Math.abs(A);
+
+        return [cx / 2.0, cy / 2.0]; // Final centroid coordinates
+}
+
 
     intersect(otherPolygon) {
         // Check if the input is a valid instance of Polygon class
