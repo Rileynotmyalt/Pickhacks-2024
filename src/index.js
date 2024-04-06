@@ -4,8 +4,6 @@ const {Line} = require("./Line");
 console.log("hello world")
 
 
-const { Polygon } = require("./Polygon");
-
 // Example polygon: A simple quadrilateral
 const pointsQuadrilateral = [
     [1, 1],  // Bottom left

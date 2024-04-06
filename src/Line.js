@@ -52,6 +52,32 @@ class Line {
 
         return [x, y];
     }
+
+    intersects(line) {
+        // Check if slopes are equal (lines are parallel)
+        if (this.slope() === line.slope()) {
+            return false;
+        }
+
+        // Calculate intersection point using point-slope form
+        let p = this.intercept(line);
+        let x = p[0];
+        let y = p[1];
+
+        // Check if the intersection point is within the segments
+        return x >= Math.min(this.p1[0], this.p2[0]) && x <= Math.max(this.p1[0], this.p2[0]) &&
+            x >= Math.min(line.p1[0], line.p2[0]) && x <= Math.max(line.p1[0], line.p2[0]) &&
+            y >= Math.min(this.p1[1], this.p2[1]) && y <= Math.max(this.p1[1], this.p2[1]) &&
+            y >= Math.min(line.p1[1], line.p2[1]) && y <= Math.max(line.p1[1], line.p2[1]);
+    }
+
+    intercept(line) {
+        // Calculate intersection point using point-slope form
+        let x = (line.slope() * line.p1[0] - this.slope() * this.p1[0] + this.p1[1] - line.p1[1]) / (line.slope() - this.slope());
+        let y = this.slope() * (x - this.p1[0]) + this.p1[1];
+
+        return [x, y];
+    }
 }
 
 module.exports = {Line}
