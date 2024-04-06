@@ -21,6 +21,24 @@ class Polygon {
         }
         return Math.abs(area) / 2;
     }
+    centroid() {
+        let cx = 0, cy = 0;
+        const N = this.points.length;
+        let A = this.area() * 6; // Multiplying by 6 for the centroid formula
+
+        for (let i = 0; i < N; i++) {
+            const [x1, y1] = this.points[i];
+            const [x2, y2] = this.points[(i + 1) % N];
+            const common = x1 * y2 - x2 * y1;
+            cx += (x1 + x2) * common;
+            cy += (y1 + y2) * common;
+        }
+        
+        cx /= A;
+        cy /= A;
+
+        return [cx, cy];
+    }
 
     intersect(otherPolygon) {
         // Check if the input is a valid instance of Polygon class
