@@ -4,6 +4,7 @@
       let startY = 0
       let endX = 0
       let endY = 0
+      let typeId = 0
       let selectedShape = "square" // Default selected shape
       let drawingInProgress = false // To check if shape drawing is in progress
       let currentShape = null // To store the currently drawn shape
@@ -83,25 +84,30 @@
 
       // Function to display shape information
       function displayShapeInfo(startX, startY, endX, endY, shapeColor) {
-        const shapeInfo = document.getElementById("shapeInfo")
+        const shapeInfo = document.getElementById("shapeInfo");
         const shapeType =
-          selectedShape.charAt(0).toUpperCase() + selectedShape.slice(1)
-        const info = document.createElement("div")
+            selectedShape.charAt(0).toUpperCase() + selectedShape.slice(1);
+        let typeID;
         if (shapeColor == "red") {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Type: Exterior Walls`
-        } else if (shapeColor == "blue") {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Type: Placeable Zones`
+            typeID = 1;
+        } else if (shapeColor == "orange") {
+            typeID = 2;
         } else if (shapeColor == "green") {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Type: Door`
+            typeID = 3;
         } else if (shapeColor == "purple") {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Type: Car`
+            typeID = 4;
         } else if (shapeColor == "yellow") {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Type: Window`
+            typeID = 5;
+        } else if (shapeColor == "blue") {
+            typeID = 6;
         } else {
-          info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) Color ${shapeColor}`
+            typeID = -1; // Unknown type
         }
-        shapeInfo.appendChild(info)
-      }
+        const info = document.createElement("div");
+        info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) TypeID ${typeID}`;
+    
+        shapeInfo.appendChild(info);
+    }
 
       // Function to delete the most recent shape
       function deleteShape() {
@@ -169,19 +175,70 @@
       function submitShapes() {
         // Extract shape information
         const shapeData = shapes.map(shape => {
-          const rect = shape.getBoundingClientRect();
-          return {
-            type: shape.classList.contains("square") ? "square" : "circle",
-            startX: rect.left,
-            startY: rect.top,
-            endX: rect.right,
-            endY: rect.bottom,
-            color: shape.style.backgroundColor
-          };
+            const rect = shape.getBoundingClientRect();
+            return {
+                type: shape.classList.contains("square") ? "square" : "circle",
+                startX: rect.left,
+                startY: rect.top,
+                endX: rect.right,
+                endY: rect.bottom,
+                typeID: getTypeID(shape.style.backgroundColor)
+            };
         });
-      
+    
         // Log shape data to the console
         console.log(shapeData);
+    }
+    
+    function getTypeID(color) {
+        if (color == "red") {
+            return 1;
+        } else if (color == "orange") {
+            return 2;
+        } else if (color == "green") {
+            return 3;
+        } else if (color == "purple") {
+            return 4;
+        } else if (color == "yellow") {
+            return 5;
+        } else if (color == "blue") {
+            return 6;
+        } else {
+            return -1; // Unknown type
+        }
+    }
+        
+      function drawCone() {
+        // Get input values
+        const positionX = parseInt(document.getElementById("positionX").value)
+        const positionY = parseInt(document.getElementById("positionY").value)
+        const size = parseInt(document.getElementById("size").value)
+        const rotation = parseInt(document.getElementById("rotation").value)
+
+        // Create cone element
+        const coneElement = document.createElement("div")
+        coneElement.classList.add("shape")
+        coneElement.classList.add("cone")
+        coneElement.style.left = positionX + "px"
+        coneElement.style.top = positionY + "px"
+        coneElement.style.width = size + "px"
+        coneElement.style.height = size / 2 + "px"
+        coneElement.style.transform = `rotate(${rotation}deg)`
+
+        // Append cone to shapes container
+        document.getElementById("shapes-container").appendChild(coneElement)
+
+        // Push cone to shapes array
+        shapes.push(coneElement)
+
+        // Display cone information in the shape log
+        displayShapeInfo(
+          positionX,
+          positionY,
+          positionX + size,
+          positionY + size / 2,
+          "cone"
+        )
       }
       
       
