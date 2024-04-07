@@ -179,6 +179,7 @@ body {
   .cone {
     width:200px;
     height:100px;
-    background:radial-gradient(farthest-side at bottom,blue ,#0000);
-    -webkit-mask:conic-gradient(from -45deg at bottom,#0000, #000 1deg 90deg, #0000 91deg);
+    border-radius:50%;
+    background:conic-gradient(from -45deg at bottom,#0000, blue 1deg 90deg, #0000 91deg);
+    -webkit-mask:linear-gradient(#0000,#000);
   }

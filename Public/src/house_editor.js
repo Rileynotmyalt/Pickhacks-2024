@@ -194,12 +194,18 @@ function submitShapes() {
   let b = new Board(shapeData, sceneData);
   let cameras = b.getCameras();
 
-  // Call the getPriorityPoints method on the board instance
-  //const priorityPoints = b.priorityPoints[0][0]; // Using 'b' instance of Board
+  console.log(cameras);
 
-  // Now you can use the priorityPoints array as needed
-  //console.log(priorityPoints);
+  cameras.forEach(camera => {
+    const { x: positionX, y: positionY, rotation } = camera;
+
+    drawCone(positionX, positionY, (rotation) ,150)
+  
+  });
+  
+  
 }
+
 
 
 function getTypeID(color) {
@@ -221,38 +227,36 @@ function getTypeID(color) {
   }
 }
   
-function drawCone() {
-  // Get input values
-  const positionX = parseInt(document.getElementById("positionX").value)
-  const positionY = parseInt(document.getElementById("positionY").value)
-  const size = parseInt(document.getElementById("size").value)
-  const rotation = parseInt(document.getElementById("rotation").value)
-
+function drawCone(positionX, positionY, rotation, size) {
   // Create cone element
-  const coneElement = document.createElement("div")
-  coneElement.classList.add("shape")
-  coneElement.classList.add("cone")
-  coneElement.style.left = positionX + "px"
-  coneElement.style.top = positionY + "px"
-  coneElement.style.width = size + "px"
-  coneElement.style.height = size / 2 + "px"
-  coneElement.style.transform = `rotate(${rotation}deg)`
+  const coneElement = document.createElement("div");
+  coneElement.classList.add("shape");
+  coneElement.classList.add("cone");
+  coneElement.style.left = positionX + "px";
+  coneElement.style.top = (positionY - size / 2) + "px"; // Adjust top position
+  coneElement.style.width = size + "px";
+  coneElement.style.height = size / 2 + "px";
+  coneElement.style.transform = `rotate(${rotation}deg) scaleY(-1)`; // Rotate and flip the cone
 
   // Append cone to shapes container
-  document.getElementById("shapes-container").appendChild(coneElement)
+  document.getElementById("shapes-container").appendChild(coneElement);
 
   // Push cone to shapes array
-  shapes.push(coneElement)
+  shapes.push(coneElement);
 
   // Display cone information in the shape log
   displayShapeInfo(
     positionX,
-    positionY,
+    positionY - size / 2, // Adjust position for bottom start
     positionX + size,
-    positionY + size / 2,
+    positionY,
     "cone"
-  )
+  );
 }
+
+
+
+
 
 // Function to generate priority points as shapes on the image
 function generatePriorityPoints(priorityPoints) {
