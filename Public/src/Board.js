@@ -133,7 +133,9 @@ class Board {
                     coords: [Xtot/sectorWeight, Ytot/sectorWeight],
                     totalWeight: sectorWeight
                 };
-                finalOut.push(cell);
+                if (sectorWeight > 0) {
+                    finalOut.push(cell);
+                };
         });
 
         return finalOut;
