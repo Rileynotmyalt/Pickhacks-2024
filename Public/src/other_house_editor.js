@@ -49,7 +49,6 @@
         }
       }
 
-      // Function to resize shape on mousemove
       function resizeShape(event) {
         if (drawingInProgress) {
           const container = document.getElementById("shapes-container")
@@ -68,6 +67,8 @@
           container.appendChild(shape)
         }
       }
+      
+      
 
       // Function to stop resizing on mouseup
       function stopResizing() {
@@ -81,6 +82,9 @@
           }
         }
       }
+      
+      
+    
 
       // Function to display shape information
       function displayShapeInfo(startX, startY, endX, endY, shapeColor) {
@@ -92,7 +96,6 @@
     
         shapeInfo.appendChild(info);
     }
-
       // Function to delete the most recent shape
       function deleteShape() {
         const shapeInfo = document.getElementById("shapeInfo")
@@ -106,6 +109,9 @@
           }
         }
       }
+    
+      
+      
 
       // Function to change the color of the shapes
       function changeShapeColor(color) {
@@ -213,38 +219,7 @@
         }
     }
         
-      function drawCone() {
-        // Get input values
-        const positionX = parseInt(document.getElementById("positionX").value)
-        const positionY = parseInt(document.getElementById("positionY").value)
-        const size = parseInt(document.getElementById("size").value)
-        const rotation = parseInt(document.getElementById("rotation").value)
 
-        // Create cone element
-        const coneElement = document.createElement("div")
-        coneElement.classList.add("shape")
-        coneElement.classList.add("cone")
-        coneElement.style.left = positionX + "px"
-        coneElement.style.top = positionY + "px"
-        coneElement.style.width = size + "px"
-        coneElement.style.height = size / 2 + "px"
-        coneElement.style.transform = `rotate(${rotation}deg)`
-
-        // Append cone to shapes container
-        document.getElementById("shapes-container").appendChild(coneElement)
-
-        // Push cone to shapes array
-        shapes.push(coneElement)
-
-        // Display cone information in the shape log
-        displayShapeInfo(
-          positionX,
-          positionY,
-          positionX + size,
-          positionY + size / 2,
-          "cone"
-        )
-      }
 // Add event listener to the image for adding shapes on mousedown
 document.getElementById("image").addEventListener("mousedown", addShape);
 
@@ -255,16 +230,7 @@ document.addEventListener("mousemove", resizeShape);
 document.addEventListener("mouseup", stopResizing);
 
 
-      // Show mouse coordinates when hovering over the image
-      document
-        .getElementById("image")
-        .addEventListener("mousemove", function (event) {
-          const mouseX = event.clientX
-          const mouseY = event.clientY
-          document.getElementById(
-            "mouse-coordinates"
-          ).textContent = `Mouse Coordinates: (${mouseX}, ${mouseY})`
-        })
+
 
       // Call selectShape to set the default shape
       selectShape("square")

@@ -1,6 +1,5 @@
-      // Initialize variables
+// Initialize variables
       let shapes = []
-      let startX = 0
       let startY = 0
       let endX = 0
       let endY = 0
@@ -9,6 +8,7 @@
       let drawingInProgress = false // To check if shape drawing is in progress
       let currentShape = null // To store the currently drawn shape
       let shapeColor = "red" // Default shape color for new shapes
+
 
       // Function to create a square
       function createSquare(startX, startY, endX, endY) {
@@ -181,19 +181,26 @@
           };
         });
         const inputText = document.getElementById("textInput").value;
-
+    
         // Include image dimensions in the output
         const sceneData = {
           imageWidth: imageWidth,
           imageHeight: imageHeight,
           cameraQuantiy: inputText
         };
-
+    
         // Log shape data to the console
         //console.log(shapeData);
         let b = new Board(shapeData, sceneData);
         let cameras = b.getCameras();
+    
+        // Call the getPriorityPoints method on the board instance
+        const priorityPoints = b.priorityPoints[0][0]; // Using 'b' instance of Board
+    
+        // Now you can use the priorityPoints array as needed
+        console.log(priorityPoints);
     }
+    
 
     function getTypeID(color) {
         let typeID;
@@ -247,8 +254,22 @@
         )
       }
       
-      
-
+// Function to generate priority points as shapes on the image
+function generatePriorityPoints(priorityPoints) {
+  const container = document.getElementById("shapes-container");
+  priorityPoints.forEach(point => {
+      const { coords: [x, y], totalWeight } = point;
+      const pointElement = document.createElement("div");
+      pointElement.classList.add("shape");
+      pointElement.classList.add("priority-point");
+      pointElement.style.left = x + "px";
+      pointElement.style.top = y + "px";
+      pointElement.style.width = totalWeight + "px"; // Using weight as width
+      pointElement.style.height = totalWeight + "px"; // Using weight as height
+      pointElement.style.backgroundColor = "black"; // You can change the color as needed
+      container.appendChild(pointElement);
+  });
+}
 
       // Add event listener to the container for adding shapes on mousedown
       document.getElementById("image").addEventListener("mousedown", addShape)
