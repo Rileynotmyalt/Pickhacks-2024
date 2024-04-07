@@ -193,6 +193,7 @@ function submitShapes() {
   //console.log(shapeData);
   let b = new Board(shapeData, sceneData);
   let cameras = b.getCameras();
+  let cInfo = b.getCameraInfo();
 
   console.log(cameras);
 
@@ -205,17 +206,14 @@ function submitShapes() {
   
 }
 
-function drawTriangle(positionX, positionY, size) {
-  const halfSize = size / 2;
-  const height = (Math.sqrt(3) / 2) * size; // Height of an equilateral triangle
+function drawTriangle(x1, y1, FOD, FOV, angle) {
+  // angle in degrees to positive x = 0 degrees
+  // isosceles triangle
 
-  // Calculate the coordinates of the vertices of the triangle
-  const x1 = 320;
-  const y1 = 190;
-  const x2 = positionX + halfSize;
-  const y2 = (positionY + height / 2) + height / 2;
-  const x3 = positionX - halfSize;
-  const y3 = (positionY + height / 2) + height / 2;
+  let x2 = x1 + (FOD*Math.cos(angle+(FOV/2)));
+  let y2 = y1 + (FOD*Math.sin(angle+(FOV/2)));
+  let x3 = x1 + (FOD*Math.cos(angle-(FOV/2)));
+  let y3 = y1 + (FOD*Math.sin(angle-(FOV/2)));
 
   // Draw the three lines to form the triangle
   drawLine(x1, y1, x2, y2, 2, "blue"); // Line from vertex 1 to vertex 2
