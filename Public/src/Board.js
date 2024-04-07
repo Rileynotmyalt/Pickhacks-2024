@@ -1,19 +1,22 @@
 class Board {
     constructor(objects, sceneData) {
-        this.buildings = []; // list of Polygons
         this.cameras = [];
         this.numCameras = sceneData.cameraQuantiy;
-        this.priorityZones = [] // list of polygons
+        Camera.FOV = 40 // sceneData.FOV
+        Camera.FOD = 120 // sceneData.FOV
+
         this.width = sceneData.imageWidth; // Example width
         this.height = sceneData.imageHeight; // Example height
+
+        this.buildings = []; // list of Polygons
+        this.priorityZones = [] // list of polygons
+
         this.initObjects(objects);
         this.priorityPoints = this.createPriorityPoints()
         this.calculateCameras();
 
-        console.log(this.buildings)
-
         for (let i = 0; i < this.buildings.length; i++) {
-            console.log("Building " + i + ":" + this.buildings[i].points);
+            console.log(this.buildings[i].points);
         }
     }
 
@@ -115,7 +118,8 @@ class Board {
         const sectors = this.makeSectors();
         const priorityPoints = this.simplifyPriorityZones();
         let finalOut = [];
-
+        console.log(sectors);
+        console.log(this.width,this.height)
         sectors.forEach(sector => {
             var sectorWeight = 0;
             var Xtot = 0;
@@ -149,6 +153,9 @@ class Board {
     }
 
     calculateCameras() {
+        for (let i = 0; i < this.numCameras; i++) {
+            this.cameras[i] = new Camera();
+        }
         // do the math and stuff
         for (let i = 0; i < this.priorityPoints.length; i++) {
 
@@ -172,5 +179,16 @@ class Board {
  * @returns {number}
  */
 function getWeight(id) {
-    return 1;
+    switch(id) {
+        case "Car":
+            return 2.8
+        case "Door":
+            return 4.0
+        case "Window":
+            return 2.1
+        case "Pool":
+            return 2.0
+        default:
+            return 1.0
+    }
 }
