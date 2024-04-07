@@ -105,6 +105,31 @@ class Polygon {
     
         return orderedPoints;
     }
+
+    doPolygonsIntersect(polygon1, polygon2) {
+        const lines1 = polygon1.getLines();
+        const lines2 = polygon2.getLines();
+      
+        // Loop through each line segment in polygon1
+        for (let i = 0; i < lines1.length; i++) {
+          const line1 = lines1[i];
+      
+          // Loop through each line segment in polygon2
+          for (let j = 0; j < lines2.length; j++) {
+            const line2 = lines2[j];
+      
+            // Check if the line segments intersect
+            if (line1.intersects(line2)) {
+              // If any intersection is found, polygons intersect
+              return true;
+            }
+          }
+        }
+      
+        // No intersection found after checking all line segments
+        return false;
+      }
+      
     
 
     isInsidePolygon(point, polygon) {
