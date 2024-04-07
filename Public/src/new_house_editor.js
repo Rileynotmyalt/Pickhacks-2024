@@ -164,7 +164,7 @@
 
       function submitShapes() {
         // Get the image container and its dimensions
-        const imageContainer = document.getElementById("container");
+        const imageContainer = document.getElementById("image");
         const containerRect = imageContainer.getBoundingClientRect();
         const containerLeft = containerRect.left;
         const containerTop = containerRect.top;
@@ -186,13 +186,13 @@
             typeID: getTypeID(shape.style.backgroundColor)
           };
         });
-        const inputText = document.getElementById("textInput").value;
+        //const inputText = document.getElementById("textInput").value;
 
         // Include image dimensions in the output
         const sceneData = {
           imageWidth: imageWidth,
           imageHeight: imageHeight,
-          cameraQuantiy: inputText
+          cameraQuantiy: 1
         };
         // Log shape data and image dimensions to the console
         console.log("Shape data:", shapeData);
