@@ -176,10 +176,9 @@ body {
     display: none;
   }
   
-  .cone {
-    width:200px;
-    height:100px;
-    border-radius:50%;
-    background:conic-gradient(from -45deg at bottom,#0000, blue 1deg 90deg, #0000 91deg);
-    -webkit-mask:linear-gradient(#0000,#000);
+  #myCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }

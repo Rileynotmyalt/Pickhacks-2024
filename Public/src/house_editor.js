@@ -199,12 +199,36 @@ function submitShapes() {
   cameras.forEach(camera => {
     const { x: positionX, y: positionY, rotation } = camera;
 
-    drawCone(positionX, positionY, (rotation) ,150)
-  
+    drawTriangle(positionX, positionY, 75, 0)
   });
   
   
 }
+
+function drawTriangle(positionX, positionY, size) {
+  const halfSize = size / 2;
+  const height = (Math.sqrt(3) / 2) * size; // Height of an equilateral triangle
+
+  // Calculate the coordinates of the vertices of the triangle
+  const x1 = 320;
+  const y1 = 190;
+  const x2 = positionX + halfSize;
+  const y2 = (positionY + height / 2) + height / 2;
+  const x3 = positionX - halfSize;
+  const y3 = (positionY + height / 2) + height / 2;
+
+  // Draw the three lines to form the triangle
+  drawLine(x1, y1, x2, y2, 2, "blue"); // Line from vertex 1 to vertex 2
+  drawLine(x2, y2, x3, y3, 2, "blue"); // Line from vertex 2 to vertex 3
+  drawLine(x3, y3, x1, y1, 2, "blue"); // Line from vertex 3 to vertex 1
+}
+
+
+
+
+
+
+
 
 
 
@@ -226,35 +250,29 @@ function getTypeID(color) {
       return -1; // Unknown type
   }
 }
-  
-function drawCone(positionX, positionY, rotation, size) {
-  // Create cone element
-  const coneElement = document.createElement("div");
-  coneElement.classList.add("shape");
-  coneElement.classList.add("cone");
-  coneElement.style.left = positionX + "px";
-  coneElement.style.top = (positionY - size / 2) + "px"; // Adjust top position
-  coneElement.style.width = size + "px";
-  coneElement.style.height = size / 2 + "px";
-  coneElement.style.transform = `rotate(${rotation}deg) scaleY(-1)`; // Rotate and flip the cone
 
-  // Append cone to shapes container
-  document.getElementById("shapes-container").appendChild(coneElement);
 
-  // Push cone to shapes array
-  shapes.push(coneElement);
 
-  // Display cone information in the shape log
-  displayShapeInfo(
-    positionX,
-    positionY - size / 2, // Adjust position for bottom start
-    positionX + size,
-    positionY,
-    "cone"
-  );
+function drawLine(startX, startY, endX, endY, thickness, color) {
+  const length = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+  const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
+
+  // Create line element
+  const lineElement = document.createElement("div");
+  lineElement.classList.add("line");
+  lineElement.style.position = "absolute";
+  lineElement.style.left = startX + "px";
+  lineElement.style.top = startY + "px";
+  lineElement.style.width = length + "px";
+  lineElement.style.height = thickness + "px";
+  lineElement.style.zIndex = 3;
+  lineElement.style.backgroundColor = color;
+  lineElement.style.transform = `rotate(${angle}deg)`;
+  lineElement.style.transformOrigin = "top left";
+
+  // Append line to shapes container
+  document.getElementById("shapes-container").appendChild(lineElement);
 }
-
-
 
 
 
