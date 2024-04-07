@@ -58,7 +58,7 @@ function placeCameras(cameras, lineSegment, point) {
     // rotation
     let theta;
     if (lineSegment.slope() === Infinity || lineSegment.slope() === -Infinity) {
-        theta = lineSegment.slope() > 0 ? Math.PI / 2 : -Math.PI / 2;
+        theta = lineSegment.slope() > 0 ? 90 : -90;
     } else {
         // Calculate angle theta
         theta = Math.atan(lineSegment.slope())*180/Math.PI;
@@ -71,6 +71,7 @@ function placeCameras(cameras, lineSegment, point) {
         cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,maxD));
 
         // cases,
+        console.log(theta)
         cameras[0].setRotation(theta+45+(Camera.FOV/2));
         cameras[1].setRotation(theta+135-(Camera.FOV/2));
     } else if (s1.length() < s2.length()) {
@@ -79,15 +80,16 @@ function placeCameras(cameras, lineSegment, point) {
         cameras[0].setPosition(lineSegment.p1);
         cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,s1.length()));
 
-        cameras[0].setRotation(theta+(Camera.FOV/2)+Math.acos(s1.length()/Camera.FOD));
-        cameras[1].setRotation(theta-(Camera.FOV/2)+180-Math.acos(s1.length()/Camera.FOD));
+        console.log(theta,Math.acos(s1.length()/Camera.FOD))
+        cameras[0].setRotation(theta+(Camera.FOV/2)+ (Math.acos(s1.length()/Camera.FOD)*180/Math.PI) );
+        cameras[1].setRotation(theta-(Camera.FOV/2)+180- (Math.acos(s1.length()/Camera.FOD))*180/Math.PI );
     } else if (s1.length() > s2.length()) {
         // if s2 is shortest
         console.log("Creating Sub-Optimal Arrangement s2 shortest");
         cameras[1].setPosition(lineSegment.p2);
         cameras[0].setPosition(lineSegment.findPointGivenDistance(p0,s2.length()));
 
-        cameras[1].setRotation(theta+(Camera.FOV/2)+(Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
-        cameras[0].setRotation(theta-(Camera.FOV/2)+180-(Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
+        cameras[1].setRotation(theta+(Camera.FOV/2)+ (Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
+        cameras[0].setRotation(theta-(Camera.FOV/2)+180- (Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
     }
 }
