@@ -157,22 +157,42 @@
       }
 
       function submitShapes() {
+        // Get the image container and its dimensions
+        const imageContainer = document.getElementById("container");
+        const containerRect = imageContainer.getBoundingClientRect();
+        const containerLeft = containerRect.left;
+        const containerTop = containerRect.top;
+        
+        // Get the image element and its dimensions
+        const image = document.getElementById("image");
+        const imageWidth = image.width;
+        const imageHeight = image.height;
+      
         // Extract shape information
         const shapeData = shapes.map(shape => {
-            const rect = shape.getBoundingClientRect();
-            return {
-                type: shape.classList.contains("square") ? "square" : "circle",
-                startX: rect.left,
-                startY: rect.top,
-                endX: rect.right,
-                endY: rect.bottom,
-                typeID: getTypeID(shape.style.backgroundColor)
-            };
+          const rect = shape.getBoundingClientRect();
+          return {
+            type: shape.classList.contains("square") ? "square" : "circle",
+            startX: rect.left - containerLeft, // Adjust coordinates based on container top-left corner
+            startY: rect.top - containerTop,
+            endX: rect.right - containerLeft,
+            endY: rect.bottom - containerTop,
+            typeID: getTypeID(shape.style.backgroundColor)
+          };
         });
-    
-        // Log shape data to the console
-        console.log(shapeData);
-    }
+        const inputText = document.getElementById("textInput").value;
+
+        // Include image dimensions in the output
+        const sceneData = {
+          imageWidth: imageWidth,
+          imageHeight: imageHeight,
+          cameraQuantiy: inputText
+        };
+        // Log shape data and image dimensions to the console
+        console.log("Shape data:", shapeData);
+        console.log("Scene data:", sceneData);
+
+      }
     
     function getTypeID(color) {
         let typeID;
@@ -225,10 +245,7 @@
           "cone"
         )
       }
-      
-      
-
-
+    
       // Add event listener to the container for adding shapes on mousedown
       document.getElementById("image").addEventListener("mousedown", addShape)
 
