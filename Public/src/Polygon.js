@@ -41,7 +41,7 @@ class Polygon {
     }
 
 
-    intersect(otherPolygon) {
+    combineIntersection(otherPolygon) {
         let final = [];
     
         const lines = this.getLines();
@@ -106,20 +106,20 @@ class Polygon {
         return orderedPoints;
     }
 
-    doPolygonsIntersect(polygon1, polygon2) {
-        const lines1 = polygon1.getLines();
-        const lines2 = polygon2.getLines();
+    intercects(otherPolygon) {
+        const myLines = this.getLines();
+        const otherLines = otherPolygon.getLines();
       
-        // Loop through each line segment in polygon1
-        for (let i = 0; i < lines1.length; i++) {
-          const line1 = lines1[i];
+        // Loop through each line segment in this polygon
+        for (let i = 0; i < myLines.length; i++) {
+          const myLine = myLines[i];
       
-          // Loop through each line segment in polygon2
-          for (let j = 0; j < lines2.length; j++) {
-            const line2 = lines2[j];
+          // Loop through each line segment in the other polygon
+          for (let j = 0; j < otherLines.length; j++) {
+            const otherLine = otherLines[j];
       
             // Check if the line segments intersect
-            if (line1.intersects(line2)) {
+            if (myLine.intersects(otherLine)) {
               // If any intersection is found, polygons intersect
               return true;
             }
@@ -129,6 +129,7 @@ class Polygon {
         // No intersection found after checking all line segments
         return false;
       }
+      
       
     
 
