@@ -171,7 +171,8 @@
         });
     
         // Log shape data to the console
-        console.log(shapeData);
+        //console.log(shapeData);
+        new Board(shapeData);
     }
     
     function getTypeID(color) {

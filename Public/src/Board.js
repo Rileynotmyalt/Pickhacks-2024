@@ -1,11 +1,60 @@
-const Polygon = require('./Polygon.js');
 class Board {
-    constructor() {
+    constructor(objects) {
         this.buildings = []; // list of Polygons
         this.numCameras = null;
         this.priorityZones = [] // list of polygons
         this.width = 900; // Example width
         this.height = 900; // Example height
+        this.initObjects(objects);
+
+        console.log(this.buildings)
+
+        for (let i = 0; i < this.buildings.length; i++) {
+            console.log("Building " + i + ":" + this.buildings[i].points);
+        }
+    }
+
+    initObjects(objects) {
+        for (let i = 0; i < objects.length; i++) {
+            if (objects[i].id === "building") {
+                this.addBuilding(objects[i]);
+            }
+            else {
+                this.addZone(objects[i], objects[i].id);
+            }
+            console.log(objects[i]);
+        }
+    }
+
+    addBuilding(object) {
+        let p = new Polygon([
+            [object.startX,object.startY],
+            [object.endX,object.startY],
+            [object.endX,object.endY],
+            [object.startX,object.endY]
+        ])
+        if (!this.buildIntersectingPolygons(p)){
+            this.buildings.push(p);
+        }
+    }
+
+    /**
+     * Checks existing building to see if this shape collides with them
+     * if so, the intersected shape calls combine,
+     * if there are no possible intersections, the shape is added to the buildings list
+     */
+    buildIntersectingPolygons(poly) {
+        return false;
+    }
+
+    addZone(object, id) {
+        let p = new Polygon([
+            [object.startX,object.startY],
+            [object.endX,object.startY],
+            [object.endX,object.endY],
+            [object.startX,object.endY]
+        ])
+        this.priorityZones.push({shape:p,weight:getWeight(object.id)});
     }
 
     /**
@@ -38,10 +87,10 @@ class Board {
      */
     simplifyPriorityZones() {
         let simplifiedPriorityZones = [];
-        this.priorityZones.array.forEach(polygon => {
+        this.priorityZones.forEach(zone => {
             const cell = {
-                coord: polygon.centroid(),
-                weight: polygon.calculatePriorityWeight()
+                coord: zone.shape.centroid(),
+                weight: zone.weight
             };
             simplifiedPriorityZones.push(cell)
         });
@@ -88,3 +137,11 @@ class Board {
     }
 }
 
+/**
+ * Returns a float from 1-4 that is the weight of the importance of that object
+ * @param id
+ * @returns {number}
+ */
+function getWeight(id) {
+    return 1;
+}
