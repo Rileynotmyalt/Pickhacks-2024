@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Layout Testing</title>
     <link rel="stylesheet" type="text/css" href="/Public/css/layouttest.css" />
   </head>
   <body>
+    <script src="./src/house_editor.js"></script>
+
     <div class="container">
       <nav class="navbar">
         <div class="navbar-content">
@@ -17,12 +19,23 @@
       </nav>
       <main class="main-content">
         <div class="image-container">
-          <img src="/placeholder.svg" alt="House" class="image" />
+          <img
+            src="./images/Tempoary House.jpg"
+            alt="House"
+            id="image"
+            class="image"
+          />
           <div class="button-group">
-            <button class="button">Square</button>
-            <button class="button">Circle</button>
-            <button class="button">Delete Last Shape</button>
-            <button class="button">Submit</button>
+            <button
+              class="button"
+              id="squareButton"
+              onclick="selectShape('square')"
+            >
+              Square
+            </button>
+            <button id="squareButton" class="button">Circle</button>
+            <button id="deleteButton" class="button">Delete Last Shape</button>
+            <button id="circleButton" class="button">Submit</button>
           </div>
         </div>
         <div class="object-list">
@@ -30,12 +43,24 @@
             Please mark the following objects on your house.
           </div>
           <div class="object-list-items">
-            <button class="object">Exterior Walls</button>
-            <button class="object">Placable Zones</button>
-            <button class="object">Door</button>
-            <button class="object">Car</button>
-            <button class="object">Window</button>
-            <button class="object">Pool</button>
+            <button class="object" onclick="changeShapeColor('red')">
+              Exterior Walls
+            </button>
+            <button class="object" onclick="changeShapeColor('orange')">
+              Placable Zones
+            </button>
+            <button class="object" onclick="changeShapeColor('green')">
+              Door
+            </button>
+            <button class="object" onclick="changeShapeColor('purple')">
+              Car
+            </button>
+            <button class="object" onclick="changeShapeColor('yellow')">
+              Window
+            </button>
+            <button class="object" onclick="changeShapeColor('blue')">
+              Pool
+            </button>
           </div>
         </div>
       </main>

@@ -115,13 +115,11 @@ class Polygon {
           // Loop through each line segment in the other polygon
           for (let j = 0; j < otherLines.length; j++) {
             const otherLine = otherLines[j];
-      
-            // Check if the line segments intersect
             if (myLine.intersects(otherLine)) {
-              // If any intersection is found, polygons intersect
-              return true;
+              return true; // Found intersection, polygons intersect
             }
           }
+          
         }
       
         // No intersection found after checking all line segments
