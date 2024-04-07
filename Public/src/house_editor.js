@@ -271,6 +271,58 @@ function generatePriorityPoints(priorityPoints) {
   });
 }
 
+// Function to draw a point at the specified coordinates relative to the top-left corner of the image
+function drawPoint(x, y) {
+  const pointElement = document.createElement("div");
+  pointElement.classList.add("shape");
+  pointElement.classList.add("point");
+
+  // Adjust coordinates based on container dimensions and image dimensions
+  const container = document.getElementById("container");
+  const containerRect = container.getBoundingClientRect();
+  const image = document.getElementById("image");
+  const imageRect = image.getBoundingClientRect();
+
+  // Calculate the position relative to the top-left corner of the image
+  const pointX = x - containerRect.left - window.pageXOffset - imageRect.left + 8 + 8; // Add 8 to account for the starting position of the image in X-axis
+  const pointY = y - containerRect.top - window.pageYOffset - imageRect.top + 88 + 88; // Add 88 to account for the starting position of the image in Y-axis
+
+  // Set point position and style
+  pointElement.style.left = pointX + "px";
+  pointElement.style.top = pointY + "px";
+  pointElement.style.width = "10px"; // Increase point size
+  pointElement.style.height = "10px"; // Increase point size
+  pointElement.style.backgroundColor = "black"; // You can change the color as needed
+
+  // Append point to container
+  container.appendChild(pointElement);
+}
+
+
+
+
+// Function to generate a point based on user input
+function generatePoint() {
+  const xInput = document.getElementById("xPosition");
+  const yInput = document.getElementById("yPosition");
+  const x = parseInt(xInput.value);
+  const y = parseInt(yInput.value);
+  
+  if (!isNaN(x) && !isNaN(y)) {
+    drawPoint(x, y);
+  } else {
+    alert("Please enter valid X and Y coordinates.");
+  }
+}
+
+// Add event listener to draw a point when clicking on the image
+document.getElementById("image").addEventListener("click", function(event) {
+  const container = document.getElementById("container");
+  const x = event.clientX - container.getBoundingClientRect().left;
+  const y = event.clientY - container.getBoundingClientRect().top;
+  drawPoint(x, y);
+});
+
       // Add event listener to the container for adding shapes on mousedown
       document.getElementById("image").addEventListener("mousedown", addShape)
 

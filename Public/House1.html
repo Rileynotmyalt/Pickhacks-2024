@@ -61,6 +61,15 @@
     <!-- Mouse coordinates -->
     <div id="mouse-coordinates"></div>
 
+    <!-- New point input fields -->
+    <div class="point-input">
+      <label for="xPosition">X Position:</label>
+      <input type="text" id="xPosition" placeholder="Enter X position" />
+      <label for="yPosition">Y Position:</label>
+      <input type="text" id="yPosition" placeholder="Enter Y position" />
+      <button onclick="generatePoint()">Generate Point</button>
+    </div>
+
     <script src="src/house_editor.js"></script>
     <script src="src/Board.js"></script>
     <script src="src/Camera.js"></script>
