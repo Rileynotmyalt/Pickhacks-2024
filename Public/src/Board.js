@@ -172,5 +172,16 @@ class Board {
  * @returns {number}
  */
 function getWeight(id) {
-    return 1;
+    switch(id) {
+        case "Car":
+            return 2.8
+        case "Door":
+            return 4.0
+        case "Window":
+            return 2.1
+        case "Pool":
+            return 2.0
+        default:
+            return 1.0
+    }
 }
