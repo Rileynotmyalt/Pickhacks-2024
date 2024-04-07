@@ -212,10 +212,10 @@ function drawTriangle(positionX, positionY, size) {
   // Calculate the coordinates of the vertices of the triangle
   const x1 = 320;
   const y1 = 190;
-  const x2 = positionX + halfSize;
-  const y2 = (positionY + height / 2) + height / 2;
-  const x3 = positionX - halfSize;
-  const y3 = (positionY + height / 2) + height / 2;
+  const x2 = 440;
+  const y2 = 180;
+  const x3 = 370;
+  const y3 = 240;
 
   // Draw the three lines to form the triangle
   drawLine(x1, y1, x2, y2, 2, "blue"); // Line from vertex 1 to vertex 2
