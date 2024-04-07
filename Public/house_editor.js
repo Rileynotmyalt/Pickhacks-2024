@@ -87,24 +87,8 @@
         const shapeInfo = document.getElementById("shapeInfo");
         const shapeType =
             selectedShape.charAt(0).toUpperCase() + selectedShape.slice(1);
-        let typeID;
-        if (shapeColor == "red") {
-            typeID = 1;
-        } else if (shapeColor == "orange") {
-            typeID = 2;
-        } else if (shapeColor == "green") {
-            typeID = 3;
-        } else if (shapeColor == "purple") {
-            typeID = 4;
-        } else if (shapeColor == "yellow") {
-            typeID = 5;
-        } else if (shapeColor == "blue") {
-            typeID = 6;
-        } else {
-            typeID = -1; // Unknown type
-        }
         const info = document.createElement("div");
-        info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) TypeID ${typeID}`;
+        info.textContent = `${shapeType}: Start (${startX}, ${startY}), End (${endX}, ${endY}) TypeID ${getTypeID(shapeColor)}`;
     
         shapeInfo.appendChild(info);
     }
@@ -191,18 +175,19 @@
     }
     
     function getTypeID(color) {
+        let typeID;
         if (color == "red") {
-            return 1;
+            return "Exterior Walls";
         } else if (color == "orange") {
-            return 2;
+            return "Placeable Zones";
         } else if (color == "green") {
-            return 3;
+            return "Door";
         } else if (color == "purple") {
-            return 4;
+            return "Car";
         } else if (color == "yellow") {
-            return 5;
+            return "Window";
         } else if (color == "blue") {
-            return 6;
+            return "Pool";
         } else {
             return -1; // Unknown type
         }
