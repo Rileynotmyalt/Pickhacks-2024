@@ -200,7 +200,7 @@ function submitShapes() {
   cameras.forEach(camera => {
     const { x: positionX, y: positionY, rotation } = camera;
 
-    drawTriangle(positionX, positionY, 75, 0)
+    drawTriangle(positionX, positionY, cInfo.fod, cInfo.fov, rotation)
   });
   
   
