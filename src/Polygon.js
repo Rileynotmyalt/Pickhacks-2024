@@ -47,124 +47,95 @@ class Polygon {
 
 
     intersect(otherPolygon) {
-        // Check if the input is a valid instance of Polygon class
-        if (!(otherPolygon instanceof Polygon)) {
-            throw new Error('Input must be an instance of the Polygon class.');
-        }
-
-        // Check if either polygon has no points or is null
-        if (!this.points || !otherPolygon.points) {
-            return 0;
-        }
-
-        let intersectionArea = 0;
-
-        // Iterate through each edge of the first polygon
-        for (let i = 0; i < this.points.length; i++) {
-            const edgeStart = this.points[i];
-            const edgeEnd = this.points[(i + 1) % this.points.length];
-
-            // Clip the other polygon by the current edge of the first polygon
-            const clippedPoints = otherPolygon.clipPolygon(edgeStart, edgeEnd);
-
-            // Debug log: Print the clipped polygon for each edge
-            console.log('Clipped polygon:', clippedPoints);
-
-            // Compute the area of the clipped polygon and add it to the total intersection area
-            intersectionArea += this.computeAreaOfPolygon(clippedPoints);
-        }
-
-        return intersectionArea;
+        let final = [];
+    
+        const lines = this.getLines();
+        const otherLines = otherPolygon.getLines();
+    
+        lines.forEach(line => {
+            otherLines.forEach(otherLine => {
+                if (line.intersects(otherLine)) {
+                    const intersectionPoint = line.intercept(otherLine);
+    
+                    // Check if the intersection point is not already in the final list
+                    if (!final.includes(intersectionPoint)) {
+                        final.push(intersectionPoint);
+                    }
+                }
+            });
+        });
+    
+        // Order the points in the final intersection polygon
+        final = this.orderIntersectionPoints(final);
+    
+        return final;
     }
-
-
-    clipPolygon(edgeStart, edgeEnd) {
-        if (!this.points || this.points.length === 0) {
-            return [];
+    
+    getLines() {
+        return this.points.map((point, i) => new Line(point, this.points[(i + 1) % this.points.length]));
+    }
+    
+    orderIntersectionPoints(points) {
+        let currentPoint = this.points[0]; // Start with a point from this polygon
+        while (!this.isInsidePolygon(currentPoint, points)) {
+            currentPoint = this.points[(this.points.indexOf(currentPoint) + 1) % this.points.length]; // Try another point
         }
-
-        let input = this.points;
-        let output = [];
-
-        for (let j = 0; j < input.length; j++) {
-            const p1 = input[j];
-            const p2 = input[(j + 1) % input.length];
-            const [qx, qy] = this.computeIntersection(edgeStart, edgeEnd, p1, p2);
-
-            // Debug log: Print the intersection point for the current pair of points
-            console.log('Intersection point:', [qx, qy]);
-
-            // Check if there is an intersection point between p1 and p2
-            if (qx !== undefined && qy !== undefined && this.isInsidePolygon(p2, [edgeStart, edgeEnd])) {
-                output.push([qx, qy]);
+    
+        const orderedPoints = [];
+        orderedPoints.push(currentPoint);
+    
+        while (currentPoint !== orderedPoints[0]) { // Continue until we reach the starting point again
+            let foundNext = false;
+            for (let i = 0; i < points.length; i++) {
+                const pointA = points[i];
+                const pointB = points[(i + 1) % points.length];
+    
+                if (
+                    (pointA.equals(currentPoint) && !orderedPoints.includes(pointB)) ||
+                    (pointB.equals(currentPoint) && !orderedPoints.includes(pointA))
+                ) {
+                    orderedPoints.push(pointA.equals(currentPoint) ? pointB : pointA);
+                    currentPoint = orderedPoints[orderedPoints.length - 1];
+                    foundNext = true;
+                    break;
+                }
             }
-            console.log('Intersect point:', p1, p2);
-
-            // Debug log: Check if p2 is inside the clipping edge
-            console.log('Is p2 inside:', this.isInsidePolygon(p2, [edgeStart, edgeEnd]));
+    
+            if (!foundNext) {
+                // Handle potential dead ends (might not be needed in most cases)
+                console.warn("Dead end encountered in intersection ordering. Attempting with a different starting point.");
+                currentPoint = this.points[this.points.indexOf(currentPoint) + 1]; // Try a different point
+            }
         }
-
-        return output;
+    
+        return orderedPoints;
     }
-
-
-    computeIntersection(edgeStart, edgeEnd, p1, p2) {
-        const [x1, y1] = edgeStart;
-        const [x2, y2] = edgeEnd;
-        const [x3, y3] = p1;
-        const [x4, y4] = p2;
-
-        // Check if points p1 and p2 are on the same side of the clipping edge
-        const side1 = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-        const side2 = (x4 - x3) * (y2 - y3) - (y4 - y3) * (x2 - x3);
-        console.log('Side1:', side1);
-        console.log('Side2:', side2);
-
-        if (side1 * side2 >= 0) {
-            // Points p1 and p2 are on the same side, lines are parallel
-            console.log('Intersection point: [undefined, undefined]');
-            return [undefined, undefined];
-        }
-
-        // Compute intersection point using alternative method
-        const t = side1 / (side1 - side2);
-        const qx = x1 + t * (x2 - x1);
-        const qy = y1 + t * (y2 - y1);
-        console.log('Intersection point:', [qx, qy]);
-
-        return [qx, qy];
-    }
-
+    
 
     isInsidePolygon(point, polygon) {
         const [x, y] = point;
         let inside = false;
         for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-            const xi = polygon[i][0];
-            const yi = polygon[i][1];
-            const xj = polygon[j][0];
-            const yj = polygon[j][1];
-            const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-            if (intersect) inside = !inside;
+          const [xi, yi] = polygon[i];
+          const [xj, yj] = polygon[j];
+      
+          // Handle collinear points (same x or y)
+          if (xi === xj) {
+            if (x <= Math.max(xi, xj) && x >= Math.min(xi, xj)) {
+              // Check if y coordinate is between polygon points
+              if (y > Math.min(yi, yj) && y < Math.max(yi, yj)) {
+                inside = !inside;
+              }
+            }
+            continue;
+          }
+      
+          const intersect = ((yi > y) !== (yj > y)) &&
+                           (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
         }
         return inside;
-    }
-
-    combineClippedPolygons(poly1, poly2) {
-        // Combine two clipped polygons by taking their intersection points
-        const combined = [];
-        for (let i = 0; i < poly1.length; i++) {
-            if (this.isInsidePolygon(poly1[i], poly2)) {
-                combined.push(poly1[i]);
-            }
-        }
-        for (let i = 0; i < poly2.length; i++) {
-            if (this.isInsidePolygon(poly2[i], poly1)) {
-                combined.push(poly2[i]);
-            }
-        }
-        return combined;
-    }
+      }
 
     computeAreaOfPolygon(polygon) {
         let area = 0;
