@@ -47,7 +47,7 @@ class Camera {
 
 // Function to place cameras
 function placeCameras(cameras, lineSegment, point) {
-
+    console.log(lineSegment,point)
     // calculate max d value, then determine if b is valid,
     // check if camera points are possible
     let p0 = lineSegment.perpendicularIntersection(point);
@@ -79,7 +79,7 @@ function placeCameras(cameras, lineSegment, point) {
         cameras[0].setPosition(lineSegment.p1);
         cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,s1.length()));
 
-        cameras[0].setRotation(theta+(Camera.FOV/2)+Math.acos(s1.length()/Camera.FOD));
-        cameras[1].setRotation(theta-(Camera.FOV/2)+180-Math.acos(s1.length()/Camera.FOD));
+        cameras[0].setRotation(theta+(Camera.FOV/2)+(Math.acos(s1.length()/Camera.FOD)*180/Math.PI));
+        cameras[1].setRotation(theta-(Camera.FOV/2)+180-(Math.acos(s1.length()/Camera.FOD)*180/Math.PI));
     }
 }
