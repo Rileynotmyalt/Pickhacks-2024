@@ -10,11 +10,16 @@
   <body>
     <div class="container">
       <nav class="navbar">
-        <div class="navbar-content">
-          <div class="logo">
-            <h1>Home</h1>
+        <a
+          href="/Public/index.html#houses"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="navbar-content">
+            <div class="logo">
+              <h1 style="z-index: 3; color: black">Home</h1>
+            </div>
           </div>
-        </div>
+        </a>
       </nav>
       <main class="main-content">
         <div id="shapes-container"></div>
@@ -41,10 +46,20 @@
             >
               Circle
             </button>
-            <button class="button" id="deleteButton" onclick="deleteShape()">
+            <button
+              class="button"
+              style="background-color: red"
+              id="deleteButton"
+              onclick="deleteShape()"
+            >
               Delete Last Shape
             </button>
-            <button class="button" id="submitButton" onclick="submitShapes()">
+            <button
+              class="button"
+              style="background-color: green"
+              id="submitButton"
+              onclick="submitShapes()"
+            >
               Submit
             </button>
           </div>
@@ -77,6 +92,7 @@
               id="textInput"
               placeholder="Number of Cameras"
               type="text"
+              value="2"
             />
           </div>
         </div>
