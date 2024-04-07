@@ -75,11 +75,19 @@ function placeCameras(cameras, lineSegment, point) {
         cameras[1].setRotation(theta+135-(Camera.FOV/2));
     } else if (s1.length() < s2.length()) {
         // if s1 is shortest
-        console.log("Creating Sub-Optimal Arrangement");
+        console.log("Creating Sub-Optimal Arrangement s1 shortest");
         cameras[0].setPosition(lineSegment.p1);
         cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,s1.length()));
 
-        cameras[0].setRotation(theta+(Camera.FOV/2)+(Math.acos(s1.length()/Camera.FOD)*180/Math.PI));
-        cameras[1].setRotation(theta-(Camera.FOV/2)+180-(Math.acos(s1.length()/Camera.FOD)*180/Math.PI));
+        cameras[0].setRotation(theta+(Camera.FOV/2)+Math.acos(s1.length()/Camera.FOD));
+        cameras[1].setRotation(theta-(Camera.FOV/2)+180-Math.acos(s1.length()/Camera.FOD));
+    } else if (s1.length() > s2.length()) {
+        // if s2 is shortest
+        console.log("Creating Sub-Optimal Arrangement s2 shortest");
+        cameras[1].setPosition(lineSegment.p2);
+        cameras[0].setPosition(lineSegment.findPointGivenDistance(p0,s2.length()));
+
+        cameras[1].setRotation(theta+(Camera.FOV/2)+(Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
+        cameras[0].setRotation(theta-(Camera.FOV/2)+180-(Math.acos(s2.length()/Camera.FOD)*180/Math.PI));
     }
 }

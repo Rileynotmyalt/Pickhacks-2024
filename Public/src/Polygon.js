@@ -167,11 +167,13 @@ class Polygon {
 function nearestLine(target, polygons) {
     // find the closest point
     let closestPoint = [Infinity,Infinity];
+    let pointIndex = [];
     for (let i = 0; i < polygons.length; i++) {
         console.log(polygons[i].points)
         for (let j = 0; j < polygons[i].points.length; j++) {
             if (Line.length(target,polygons[i].points[j]) < Line.length(target, closestPoint)){
                 closestPoint = polygons[i].points[j];
+                pointIndex = [i,j];
             }
         }
     }
@@ -205,7 +207,21 @@ function nearestLine(target, polygons) {
         }
         return intercepts[closestIntercept];
     } else if (intercepts.length === 1) {
-        return intercepts[0];
+        // if only one intercept (endpoint)
+        // walk up the surfaces and pick the closest
+        let up1 = polygons[pointIndex[0]].points[(pointIndex[1]+1)%polygons[pointIndex[0]].points.length];
+        let down1 = polygons[pointIndex[0]].points[(pointIndex[1]-1)%polygons[pointIndex[0]].points.length];
+        if (Line.length(
+            target,
+            up1
+            ) < Line.length(
+            target,
+            down1
+        )){
+            return new Line(closestPoint,up1);
+        } else {
+            return new Line(closestPoint, down1);
+        }
     }
     return null;
 }
