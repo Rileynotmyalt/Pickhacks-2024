@@ -122,7 +122,7 @@ class Board {
             var Xtot = 0;
             var Ytot = 0;
             priorityPoints.forEach(zone => {
-                if (sector.left < zone.coord[0] && zone.coord[0] <= sector.right && sector.bottom < zone.coord[1] && zone.coord[1] <= sector.top) {
+                if (sector.left < zone.coord[0] && zone.coord[0] <= sector.right && sector.bottom > zone.coord[1] && zone.coord[1] <= sector.top) {
                     sectorWeight += zone.weight;
                     Xtot += zone.coord[0];
                     Ytot += zone.coord[1];
