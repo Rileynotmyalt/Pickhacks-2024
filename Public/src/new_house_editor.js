@@ -163,8 +163,9 @@ function submitShapes() {
   const containerLeft = containerRect.left;
   const containerTop = containerRect.top;
   
-  // Get the image element and its dimensions
+// Get the image element and its dimensions
   const image = document.getElementById("images");
+  const imageRect = image.getBoundingClientRect();
   const imageWidth = image.width;
   const imageHeight = image.height;
 
@@ -173,10 +174,10 @@ function submitShapes() {
     const rect = shape.getBoundingClientRect();
     return {
       type: shape.classList.contains("square") ? "square" : "circle",
-      startX: rect.left - containerLeft, // Adjust coordinates based on container top-left corner
-      startY: rect.top - containerTop,
-      endX: rect.right - containerLeft,
-      endY: rect.bottom - containerTop,
+      startX: rect.left - imageRect.left, // Adjust coordinates based on image top-left corner
+      startY: rect.top - imageRect.top,
+      endX: rect.right - imageRect.left,
+      endY: rect.bottom - imageRect.top,
       typeID: getTypeID(shape.style.backgroundColor)
     };
   });
@@ -207,6 +208,9 @@ function submitShapes() {
 }
 
 function drawTriangle(x1, y1, FOD, FOV, angle) {
+
+  x1 = x1 + 24
+  y1 = y1 + 88
   // angle in degrees to positive x = 0 degrees
   // isosceles triangle
   angle = (angle * (Math.PI / 180));
