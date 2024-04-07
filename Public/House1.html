@@ -4,24 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>House Editor</title>
+    <!-- Include your CSS file -->
     <link rel="stylesheet" type="text/css" href="/Public/css/housepage.css" />
     <style>
-      #image {
-        position: relative;
-      }
-      #mouse-coordinates {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-      }
+      /* Add your additional styles here if needed */
     </style>
   </head>
   <body>
+    <!-- Navbar -->
     <div class="topnav" id="myTopnav">
       <a class="active" href="./index.html#houses"
         ><i class="fa fa-fw fa-home"></i> Home</a
       >
     </div>
+
+    <!-- Main content -->
     <div id="container">
       <img
         id="image"
@@ -32,7 +29,6 @@
       <div id="shapes-container"></div>
       <div class="color-button-container">
         <p>Please mark the following objects on your house.</p>
-
         <div class="color-buttons">
           <button onclick="changeShapeColor('red')">Exterior Walls</button>
           <button onclick="changeShapeColor('orange')">Placable Zones</button>
@@ -44,19 +40,31 @@
       </div>
     </div>
 
+    <!-- Shape buttons -->
     <div class="shape-buttons">
       <button id="squareButton" onclick="selectShape('square')">Square</button>
       <button id="circleButton" onclick="selectShape('circle')">Circle</button>
       <button id="deleteButton" onclick="deleteShape()">
         Delete Last Shape
       </button>
-      <button id="submitButton" onclick="submitShapes()">Submit</button>
+
+      <!-- Input field and submit button -->
+      <div>
+        <input type="text" id="textInput" placeholder="Enter text" />
+        <button onclick="submitShapes()">Submit</button>
+      </div>
     </div>
 
+    <!-- Shape information -->
     <div class="shape-info" id="shapeInfo"></div>
 
+    <!-- Mouse coordinates -->
     <div id="mouse-coordinates"></div>
 
-    <script src="house_editor.js"></script>
+    <script src="src/house_editor.js"></script>
+    <script src="src/Board.js"></script>
+    <script src="src/Camera.js"></script>
+    <script src="src/Line.js"></script>
+    <script src="src/Polygon.js"></script>
   </body>
 </html>
