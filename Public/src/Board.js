@@ -1,11 +1,13 @@
 class Board {
-    constructor(objects) {
+    constructor(objects, sceneData) {
         this.buildings = []; // list of Polygons
-        this.numCameras = null;
+        this.cameras = [];
+        this.numCameras = sceneData.cameraQuantiy;
         this.priorityZones = [] // list of polygons
-        this.width = 900; // Example width
-        this.height = 900; // Example height
+        this.width = sceneData.imageWidth; // Example width
+        this.height = sceneData.imageHeight; // Example height
         this.initObjects(objects);
+        this.calculateCameras();
 
         console.log(this.buildings)
 
@@ -16,7 +18,7 @@ class Board {
 
     initObjects(objects) {
         for (let i = 0; i < objects.length; i++) {
-            if (objects[i].id === "building") {
+            if (objects[i].typeID === "Exterior Walls") {
                 this.addBuilding(objects[i]);
             }
             else {
@@ -44,6 +46,13 @@ class Board {
      * if there are no possible intersections, the shape is added to the buildings list
      */
     buildIntersectingPolygons(poly) {
+        for (let i = 0; i < this.buildings.length; i++) {
+            if (this.buildings[i].intersects(poly)) {
+                console.log("intersect");
+                this.buildings[i].combineIntersection(poly);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -134,6 +143,23 @@ class Board {
      */
     calculatePriorityWeight() {
         return 1;
+    }
+
+    calculateCameras() {
+        // do the math and stuff
+        for (let i = 0; i < this.numCameras; i++) {
+
+        }
+    }
+
+    getCameras() {
+        return this.cameras.map(camera => {
+            return {
+                x: camera.position[0],
+                y: camera.position[1],
+                rotation: camera.rotation
+            }
+        })
     }
 }
 
