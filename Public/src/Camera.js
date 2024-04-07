@@ -55,25 +55,31 @@ function placeCameras(cameras, lineSegment, point) {
     let s2 = new Line(p0, lineSegment.p2);
     let maxD = Camera.FOD * Math.cos(45*(Math.PI/180)); // 45degree / equilateral triangle is max optimal
 
+    // rotation
+    let theta;
+    if (lineSegment.slope() === Infinity || lineSegment.slope() === -Infinity) {
+        theta = lineSegment.slope() > 0 ? Math.PI / 2 : -Math.PI / 2;
+    } else {
+        // Calculate angle theta
+        theta = Math.atan(lineSegment.slope())*180/Math.PI;
+    }
+
     if (s1.length() >= maxD && s2.length() >= maxD) {
         console.log("Creating Optimal Arrangement")
         // now solve for global position and rotation for cameras
         cameras[0].setPosition(lineSegment.findPointGivenDistance(p0,-maxD));
         cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,maxD));
 
-        // rotation
-        let theta;
-        if (lineSegment.slope() === Infinity || lineSegment.slope() === -Infinity) {
-            theta = lineSegment.slope() > 0 ? Math.PI / 2 : -Math.PI / 2;
-        } else {
-            // Calculate angle theta
-            theta = Math.atan(lineSegment.slope())*180/Math.PI;
-        }
-
         // cases,
         cameras[0].setRotation(theta+45+(Camera.FOV/2));
         cameras[1].setRotation(theta+135-(Camera.FOV/2));
-    } else {
-        console.log("Creating Sub-Optimal Arrangement\nNot yet Implemented"); //TODO
+    } else if (s1.length() < s2.length()) {
+        // if s1 is shortest
+        console.log("Creating Sub-Optimal Arrangement");
+        cameras[0].setPosition(lineSegment.p1);
+        cameras[1].setPosition(lineSegment.findPointGivenDistance(p0,s1.length()));
+
+        cameras[0].setRotation(theta+(Camera.FOV/2)+Math.acos(s1.length()/Camera.FOD));
+        cameras[1].setRotation(theta-(Camera.FOV/2)+180-Math.acos(s1.length()/Camera.FOD));
     }
 }
