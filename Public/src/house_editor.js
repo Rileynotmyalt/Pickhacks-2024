@@ -210,10 +210,10 @@ function drawTriangle(x1, y1, FOD, FOV, angle) {
   // angle in degrees to positive x = 0 degrees
   // isosceles triangle
 
-  let x2 = x1 + (FOD*Math.cos(angle+(FOV/2)));
-  let y2 = y1 + (FOD*Math.sin(angle+(FOV/2)));
-  let x3 = x1 + (FOD*Math.cos(angle-(FOV/2)));
-  let y3 = y1 + (FOD*Math.sin(angle-(FOV/2)));
+  let x2 = x1 + (FOD*Math.cos((angle+(FOV/2))*Math.PI/180));
+  let y2 = y1 + (FOD*Math.sin((angle+(FOV/2))*Math.PI/180));
+  let x3 = x1 + (FOD*Math.cos((angle-(FOV/2))*Math.PI/180));
+  let y3 = y1 + (FOD*Math.sin((angle-(FOV/2))*Math.PI/180));
 
   // Draw the three lines to form the triangle
   drawLine(x1, y1, x2, y2, 2, "blue"); // Line from vertex 1 to vertex 2
