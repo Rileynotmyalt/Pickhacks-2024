@@ -245,18 +245,15 @@
           "cone"
         )
       }
-      
-      
+// Add event listener to the image for adding shapes on mousedown
+document.getElementById("image").addEventListener("mousedown", addShape);
 
+// Add event listener to the document for resizing shape on mousemove
+document.addEventListener("mousemove", resizeShape);
 
-      // Add event listener to the container for adding shapes on mousedown
-      document.getElementById("image").addEventListener("mousedown", addShape)
+// Add event listener to the document for stopping resizing on mouseup
+document.addEventListener("mouseup", stopResizing);
 
-      // Add event listener to the document for resizing shape on mousemove
-      document.addEventListener("mousemove", resizeShape)
-
-      // Add event listener to the document for stopping resizing on mouseup
-      document.addEventListener("mouseup", stopResizing)
 
       // Show mouse coordinates when hovering over the image
       document
