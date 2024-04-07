@@ -21,13 +21,16 @@ class Line {
     perpendicularIntersection(point) {
         if (this.p1[0] === this.p2[0]) {
             return [this.p1[0],point[1]];
-        } else if (this.p1[1] === this.p2[1]) {
+        } else {
             return [point[0],this.p1[1]];
         }
+        /*
         let intercept = [];
         intercept[0] = (this.p1[0] * this.slope() - this.p1[1] + (point[0]/this.slope()) + point[1])/(this.slope() + Math.pow(this.slope(),-1));
         intercept[1] = this.slope() * (intercept[0] - this.p1[0]) + this.p1[1];
         return intercept;
+
+         */
     }
 
     findPointGivenDistance(p1, distance) {
