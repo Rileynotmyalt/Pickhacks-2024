@@ -144,6 +144,10 @@ class Board {
         return finalOut;
     }
 
+    sortPriorityPoints() {
+        this.priorityPoints.sort((a, b) => b.totalWeight - a.totalWeight);
+    }
+
     /**
      * Calculate point weight
      * (placeholder, to be called in simplifyPriorityZones)
@@ -157,8 +161,15 @@ class Board {
             this.cameras[i] = new Camera();
         }
         // do the math and stuff
-        for (let i = 0; i < this.priorityPoints.length; i++) {
-
+        // sort
+        this.sortPriorityPoints();
+        for (let i = 0; i < this.priorityPoints.length; i+2) {
+            // get nearest line
+            let l = nearestLine(this.priorityPoints[i], this.buildings)
+            // split list into 2 cameras
+            var twoCam = [this.cameras[i], this.cameras[i+1]];
+            // pass camera to place camera
+            placeCameras(twoCam, l, this.priorityPoints[i/2]);
         }
     }
 
