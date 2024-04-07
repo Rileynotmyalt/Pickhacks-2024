@@ -61,9 +61,7 @@ class Polygon {
         });
     
         // Order the points in the final intersection polygon
-        final = this.orderIntersectionPoints(final);
-    
-        return final;
+        this.points = this.orderIntersectionPoints(final);
     }
     
     getLines() {
@@ -106,7 +104,7 @@ class Polygon {
         return orderedPoints;
     }
 
-    intercects(otherPolygon) {
+    intersects(otherPolygon) {
         const myLines = this.getLines();
         const otherLines = otherPolygon.getLines();
       

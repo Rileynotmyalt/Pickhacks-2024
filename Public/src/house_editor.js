@@ -188,12 +188,13 @@
           imageHeight: imageHeight,
           cameraQuantiy: inputText
         };
-        // Log shape data and image dimensions to the console
-        console.log("Shape data:", shapeData);
-        console.log("Scene data:", sceneData);
 
-      }
-    
+        // Log shape data to the console
+        //console.log(shapeData);
+        let b = new Board(shapeData, sceneData);
+        let cameras = b.getCameras();
+    }
+
     function getTypeID(color) {
         let typeID;
         if (color == "red") {
