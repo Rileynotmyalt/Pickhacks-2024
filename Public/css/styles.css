@@ -203,19 +203,19 @@ section {
     .row {
         flex-direction: column;
     }
-    #about-me .arrow-container {
+    #about .arrow-container {
         position: relative;
         transform: none;
         left: auto
     }
-    #about-me {
+    #about {
         flex-direction: column;
     }
-    #about-me .left {
+    #about-.left {
         border-left: 2px solid #000000;
         border-right: 0;
     }
-    #about-me .left p{
+    #about .left p{
         text-align: left;
     }
 }

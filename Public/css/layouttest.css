@@ -34,7 +34,7 @@
   }
   
   .image-container {
-    max-width: 70rem;
+    max-width: 50rem;
     padding: 0 1.5rem;
     display: flex;
     flex-direction: column;

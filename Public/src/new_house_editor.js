@@ -191,7 +191,6 @@ function submitShapes() {
   };
 
   // Log shape data to the console
-  //console.log(shapeData);
   let b = new Board(shapeData, sceneData);
   let cameras = b.getCameras();
   let cInfo = b.getCameraInfo();
@@ -211,9 +210,7 @@ function drawTriangle(x1, y1, FOD, FOV, angle) {
 
   x1 = x1 + 24
   y1 = y1 + 88
-  // angle in degrees to positive x = 0 degrees
-  // isosceles triangle
-  //
+
 
   let x2 = x1 + (FOD*Math.cos((angle+(FOV/2))*Math.PI/180));
   let y2 = y1 + (FOD*Math.sin((angle+(FOV/2))*Math.PI/180));
