@@ -2,7 +2,7 @@
     min-height: 100vh;
     background-color: #f7fafc;
     display: flex;
-    flex-direction: column; /* Make the container a column layout */
+    flex-direction: column; 
   }
   
   .navbar {
@@ -30,7 +30,7 @@
   .main-content {
     margin-top: 2em;
     display: flex;
-    flex-grow: 1; /* Allow main content to grow and fill the remaining space */
+    flex-grow: 1; 
   }
   
   .image-container {
@@ -91,7 +91,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
     margin-top: 1rem;
-    width: 200px; /* Adjust width as needed */
+    width: 13em; 
     height: 26em;
     z-index: 2;
   }
@@ -107,7 +107,7 @@
   }
   
   .object {
-    width: 100%;
+    width: calc(100% - 1rem); 
     display: block;
     margin-bottom: 0.5rem;
     background-color: #edf2f7;
@@ -115,10 +115,13 @@
     font-weight: bold;
     border: none;
     border-radius: 0.375rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem; 
     cursor: pointer;
     transition: background-color 0.3s;
-  }
+    box-sizing: border-box; 
+    text-align: center; 
+}
+  
   
   .object:last-child {
     margin-bottom: 0;
@@ -133,3 +136,4 @@
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+
