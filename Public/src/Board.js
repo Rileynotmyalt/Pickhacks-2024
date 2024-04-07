@@ -15,9 +15,7 @@ class Board {
         this.priorityPoints = this.createPriorityPoints()
         this.calculateCameras();
 
-        for (let i = 0; i < this.buildings.length; i++) {
-            console.log(this.buildings[i].points);
-        }
+        console.log(this.cameras);
     }
 
     initObjects(objects) {
@@ -28,7 +26,6 @@ class Board {
             else {
                 this.addZone(objects[i]);
             }
-            console.log(objects[i]);
         }
     }
 
@@ -118,8 +115,6 @@ class Board {
         const sectors = this.makeSectors();
         const priorityPoints = this.simplifyPriorityZones();
         let finalOut = [];
-        console.log(sectors);
-        console.log(this.width,this.height)
         sectors.forEach(sector => {
             var sectorWeight = 0;
             var Xtot = 0;
@@ -138,7 +133,7 @@ class Board {
                 };
                 if (sectorWeight > 0) {
                     finalOut.push(cell);
-                };
+                }
         });
 
         return finalOut;
@@ -163,13 +158,13 @@ class Board {
         // do the math and stuff
         // sort
         this.sortPriorityPoints();
-        for (let i = 0; i < this.priorityPoints.length; i+2) {
+        for (let i = 0; i < this.priorityPoints.length; i+=2) {
             // get nearest line
-            let l = nearestLine(this.priorityPoints[i], this.buildings)
+            let l = nearestLine(this.priorityPoints[i].coords, this.buildings)
             // split list into 2 cameras
             var twoCam = [this.cameras[i], this.cameras[i+1]];
             // pass camera to place camera
-            placeCameras(twoCam, l, this.priorityPoints[i/2]);
+            placeCameras(twoCam, l, this.priorityPoints[i/2].coords);
         }
     }
 
@@ -181,6 +176,13 @@ class Board {
                 rotation: camera.rotation
             }
         })
+    }
+
+    getCameraInfo(){
+        return {
+            fov:Camera.FOV,
+            fod:Camera.FOD
+        }
     }
 }
 

@@ -166,14 +166,17 @@ class Polygon {
 
 function nearestLine(target, polygons) {
     // find the closest point
-    let closestPoint = [];
-    for (const polygon in polygons) {
-        for (const point in polygon.points) {
-            if (Line.length(target,point) < Line.length(target, closestPoint)){
-                closestPoint = point;
+    let closestPoint = [Infinity,Infinity];
+    for (let i = 0; i < polygons.length; i++) {
+        console.log(polygons[i].points)
+        for (let j = 0; j < polygons[i].points.length; j++) {
+            if (Line.length(target,polygons[i].points[j]) < Line.length(target, closestPoint)){
+                closestPoint = polygons[i].points[j];
             }
         }
     }
+
+    console.log(closestPoint)
 
     // cast ray to point
     let l = new Line(target, closestPoint);
@@ -201,7 +204,7 @@ function nearestLine(target, polygons) {
             }
         }
         return intercepts[closestIntercept];
-    } else if (intercepts.length === 0) {
+    } else if (intercepts.length === 1) {
         return intercepts[0];
     }
     return null;
