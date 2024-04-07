@@ -107,19 +107,18 @@ class Polygon {
     intersects(otherPolygon) {
         const myLines = this.getLines();
         const otherLines = otherPolygon.getLines();
-      
+
+        console.log(myLines);
+        console.log(otherLines);
+
         // Loop through each line segment in this polygon
         for (let i = 0; i < myLines.length; i++) {
-          const myLine = myLines[i];
-      
           // Loop through each line segment in the other polygon
           for (let j = 0; j < otherLines.length; j++) {
-            const otherLine = otherLines[j];
-            if (myLine.intersects(otherLine)) {
+            if (myLines[i].intersects(otherLines[j])) {
               return true; // Found intersection, polygons intersect
             }
           }
-          
         }
       
         // No intersection found after checking all line segments

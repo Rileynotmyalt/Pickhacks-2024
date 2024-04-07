@@ -49,7 +49,6 @@ class Board {
     buildIntersectingPolygons(poly) {
         for (let i = 0; i < this.buildings.length; i++) {
             if (this.buildings[i].intersects(poly)) {
-                console.log("intersect");
                 this.buildings[i].combineIntersection(poly);
                 return true;
             }
@@ -80,10 +79,10 @@ class Board {
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize; col++) {
                 const cell = {
-                    left: col * cellWidth,
-                    right: (col + 1) * cellWidth,
-                    top: row * cellHeight,
-                    bottom: (row + 1) * cellHeight
+                    x1: col * cellWidth,
+                    x2: (col + 1) * cellWidth,
+                    y1: row * cellHeight,
+                    y2: (row + 1) * cellHeight
                 };
                 sectors.push(cell);
             }
@@ -122,7 +121,7 @@ class Board {
             var Xtot = 0;
             var Ytot = 0;
             priorityPoints.forEach(zone => {
-                if (sector.left < zone.coord[0] && zone.coord[0] <= sector.right && sector.bottom > zone.coord[1] && zone.coord[1] <= sector.top) {
+                if (sector.x1 < zone.coord[0] && zone.coord[0] <= sector.x2 && sector.y2 > zone.coord[1] && zone.coord[1] <= sector.y1) {
                     sectorWeight += zone.weight;
                     Xtot += zone.coord[0];
                     Ytot += zone.coord[1];
@@ -133,7 +132,9 @@ class Board {
                     coords: [Xtot/sectorWeight, Ytot/sectorWeight],
                     totalWeight: sectorWeight
                 };
-                finalOut.push(cell);
+                if (sectorWeight > 0) {
+                    finalOut.push(cell);
+                };
         });
 
         return finalOut;
