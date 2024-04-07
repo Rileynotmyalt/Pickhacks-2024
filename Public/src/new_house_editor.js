@@ -213,7 +213,7 @@ function drawTriangle(x1, y1, FOD, FOV, angle) {
   y1 = y1 + 88
   // angle in degrees to positive x = 0 degrees
   // isosceles triangle
-  angle = (angle * (Math.PI / 180));
+  //
 
   let x2 = x1 + (FOD*Math.cos((angle+(FOV/2))*Math.PI/180));
   let y2 = y1 + (FOD*Math.sin((angle+(FOV/2))*Math.PI/180));

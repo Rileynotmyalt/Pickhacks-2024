@@ -206,7 +206,7 @@ function nearestLine(target, polygons) {
             }
         }
         return intercepts[closestIntercept];
-    } else if (intercepts.length === 1) {
+    } else {
         // if only one intercept (endpoint)
         // walk up the surfaces and pick the closest
         let up1 = polygons[pointIndex[0]].points[(pointIndex[1]+1)%polygons[pointIndex[0]].points.length];
@@ -223,5 +223,4 @@ function nearestLine(target, polygons) {
             return new Line(closestPoint, down1);
         }
     }
-    return null;
 }
