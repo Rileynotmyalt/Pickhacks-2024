@@ -7,6 +7,7 @@ class Board {
         this.width = sceneData.imageWidth; // Example width
         this.height = sceneData.imageHeight; // Example height
         this.initObjects(objects);
+        this.priorityPoints = this.createPriorityPoints()
         this.calculateCameras();
 
         console.log(this.buildings)
@@ -22,7 +23,7 @@ class Board {
                 this.addBuilding(objects[i]);
             }
             else {
-                this.addZone(objects[i], objects[i].id);
+                this.addZone(objects[i]);
             }
             console.log(objects[i]);
         }
@@ -56,7 +57,7 @@ class Board {
         return false;
     }
 
-    addZone(object, id) {
+    addZone(object) {
         let p = new Polygon([
             [object.startX,object.startY],
             [object.endX,object.startY],
@@ -90,6 +91,7 @@ class Board {
 
         return sectors;
     }
+
     /**
      * Iterates through all priority zones and creates a weighted point at their centroids
      * returns a list of weighted points
@@ -147,7 +149,7 @@ class Board {
 
     calculateCameras() {
         // do the math and stuff
-        for (let i = 0; i < this.numCameras; i++) {
+        for (let i = 0; i < this.priorityPoints.length; i++) {
 
         }
     }
